@@ -55,7 +55,7 @@ In a second terminal:
 ```
 
 It publishes an OIDC provider on <http://localhost:9000> with the issuer
-`http://localhost:9000/default`. See [`mock-oidc-provider/README.md`](mock-oidc-provider/README.md)
+`http://localhost:9000`. See [`mock-oidc-provider/README.md`](mock-oidc-provider/README.md)
 for endpoints, credentials and how to mint tokens.
 
 ## Your tasks
