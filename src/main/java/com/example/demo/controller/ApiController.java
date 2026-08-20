@@ -20,9 +20,11 @@ public class ApiController {
     /**
      * Returns information about the currently authenticated user.
      *
-     * <p>Expected final behaviour: echo the subject, the issuer and the granted authorities of
-     * the caller, regardless of whether the caller authenticated through an OIDC login session
-     * or presented a JWT bearer token.
+     * <p>Expected final behaviour: echo the {@code sub}, {@code email}, and {@code name} claims
+     * of the caller (for example {@code sub: "peter-parker-123"},
+     * {@code email: "peter.parker@dailybugle.com"}, {@code name: "Peter Parker"}), regardless of
+     * whether the caller authenticated through an OIDC login session or presented a JWT bearer
+     * token.
      */
     @GetMapping("/me")
     public ResponseEntity<Map<String, Object>> me() {
