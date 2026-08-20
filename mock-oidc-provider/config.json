@@ -10,9 +10,9 @@
           "requestParam": "scope",
           "match": "*",
           "claims": {
-            "sub": "candidate",
-            "name": "Candidate User",
-            "email": "candidate@example.com",
+            "sub": "peter-parker-123",
+            "name": "Peter Parker",
+            "email": "peter.parker@dailybugle.com",
             "roles": [
               "USER"
             ]
