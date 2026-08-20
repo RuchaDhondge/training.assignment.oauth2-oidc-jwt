@@ -44,7 +44,8 @@ public class ApiController {
     public ResponseEntity<Map<String, Object>> profile() {
         // TODO: Candidate to implement... return the profile claims (name, email, preferred
         //  username, ...) of the authenticated user and restrict access to an authority such as
-        //  SCOPE_profile or ROLE_USER using method security (@PreAuthorize) or SecurityConfig.
+        //  SCOPE_profile:read using method security
+        //  (@PreAuthorize("hasAuthority('SCOPE_profile:read')")) or SecurityConfig.
         return ResponseEntity.ok(Map.of("message", "TODO: return the authenticated user's profile"));
     }
 }
