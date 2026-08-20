@@ -41,9 +41,13 @@ public class SecurityConfig {
         //  `http.oauth2ResourceServer(oauth2 -> oauth2.jwt(...))`. The issuer / JWK set URI
         //  lives in `application.yml` under `spring.security.oauth2.resourceserver.jwt`.
 
-        // TODO: Candidate to implement... map JWT/OIDC claims (e.g. "roles", "scope") to
-        //  Spring Security authorities with a custom JwtAuthenticationConverter or
-        //  GrantedAuthoritiesMapper, then secure `/api/profile` with a role/scope check.
+        // TODO: Candidate to implement... map JWT/OIDC claims to Spring Security authorities.
+        //  By default, Spring Security's JWT resource server converts a space-delimited
+        //  "scope" claim directly into "SCOPE_<scopename>" granted authorities (e.g. a token
+        //  with scope "profile:read" yields the authority "SCOPE_profile:read"). Use this to
+        //  secure `/api/profile` with `.requestMatchers("/api/profile").hasAuthority("SCOPE_profile:read")`,
+        //  or supply a custom JwtAuthenticationConverter / GrantedAuthoritiesMapper if a
+        //  different claim (e.g. "roles") should also be mapped to authorities.
 
         // TODO: Candidate to implement... decide on the CSRF and session strategy. Stateless
         //  bearer-token APIs usually disable CSRF, while browser based OIDC login does not.
