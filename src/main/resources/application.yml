@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: demo
+
+# ---------------------------------------------------------------------------
+# OAuth 2.0 / OIDC configuration
+#
+# Everything below is intentionally commented out: the application starts without
+# an identity provider. Uncomment and fill in the values once the mock OIDC
+# provider (see ./mock-oidc-provider/README.md) is running on http://localhost:9000.
+# ---------------------------------------------------------------------------
+#  security:
+#    oauth2:
+#      # --- OIDC login (Authorization Code flow, used by browsers) --------------
+#      client:
+#        provider:
+#          mock-oidc:
+#            # Discovery document: <issuer-uri>/.well-known/openid-configuration
+#            issuer-uri: http://localhost:9000
+#        registration:
+#          mock-oidc:
+#            provider: mock-oidc
+#            client-id: user-api
+#            client-secret: user-api-secret
+#            authorization-grant-type: authorization_code
+#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+#            scope:
+#              - openid
+#              - profile
+#              - email
+#              - profile:read
+#
+#      # --- Resource server (JWT bearer tokens, used by API clients) -----------
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:9000
+#          # Alternatively point directly at the key set:
+#          # jwk-set-uri: http://localhost:9000/jwks
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: INFO
+    # Switch to TRACE while debugging the OAuth2 / OIDC flows:
+    # org.springframework.security: TRACE
