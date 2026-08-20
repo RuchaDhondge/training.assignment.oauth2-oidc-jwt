@@ -25,10 +25,10 @@ Environment variables you can override:
 
 The provider hosts one issuer named `default`:
 
-- Issuer URI: <http://localhost:9000/default>
-- Discovery: <http://localhost:9000/default/.well-known/openid-configuration>
-- JWKS: <http://localhost:9000/default/jwks>
-- Debugger / token minting UI: <http://localhost:9000/default/debugger>
+- Issuer URI: <http://localhost:9000>
+- Discovery: <http://localhost:9000/.well-known/openid-configuration>
+- JWKS: <http://localhost:9000/jwks>
+- Debugger / token minting UI: <http://localhost:9000/debugger>
 
 Any `client-id` / `client-secret` pair is accepted; the starter uses `demo-client` /
 `demo-secret`. These are throwaway local development values only — never reuse them anywhere else.
@@ -39,7 +39,7 @@ Any `client-id` / `client-secret` pair is accepted; the starter uses `demo-clien
 `/api/me` and `/api/profile`:
 
 ```json
-{ "sub": "candidate", "name": "Candidate User", "email": "candidate@example.com", "roles": ["USER"] }
+{ "sub": "peter-parker-123", "name": "Peter Parker", "email": "peter.parker@dailybugle.com", "roles": ["USER"] }
 ```
 
 ## Using another provider
