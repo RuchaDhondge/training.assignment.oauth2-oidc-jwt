@@ -23,7 +23,7 @@ cd training.assignment.oauth2-oidc-jwt
 ```
 
 - App: `http://localhost:8080`
-- Mock issuer: `http://localhost:9000`
+- Mock issuer: `http://localhost:9000/default`
 - Mock provider details and token steps: [`mock-oidc-provider/README.md`](mock-oidc-provider/README.md)
 
 ## What you need to implement

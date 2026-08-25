@@ -18,9 +18,9 @@ Stop it with `Ctrl+C` in that terminal.
 
 ## Important endpoints
 
-- Issuer: `http://localhost:9000`
-- Discovery: `http://localhost:9000/.well-known/openid-configuration`
-- JWKS: `http://localhost:9000/jwks`
+- Issuer: `http://localhost:9000/default`
+- Discovery: `http://localhost:9000/default/.well-known/openid-configuration`
+- JWKS: `http://localhost:9000/default/jwks`
 - Debugger / token UI: `http://localhost:9000/debugger`
 
 ## Client credentials for this assignment

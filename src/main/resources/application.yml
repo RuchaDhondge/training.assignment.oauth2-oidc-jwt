@@ -7,7 +7,7 @@ spring:
 #
 # Everything below is intentionally commented out so the starter can boot
 # without a provider. Uncomment and complete it while implementing the
-# assignment with the mock OIDC provider on http://localhost:9000.
+# assignment with the mock OIDC provider on http://localhost:9000 (issuer: /default).
 # ---------------------------------------------------------------------------
 #  security:
 #    oauth2:
@@ -16,7 +16,7 @@ spring:
 #        provider:
 #          mock-oidc:
 #            # Discovery document: <issuer-uri>/.well-known/openid-configuration
-#            issuer-uri: http://localhost:9000
+#            issuer-uri: http://localhost:9000/default
 #        registration:
 #          mock-oidc:
 #            provider: mock-oidc
@@ -34,8 +34,8 @@ spring:
 #        jwt:
 #          # TODO: Candidate to implement... configure token validation using
 #          # issuer discovery and/or JWKS from the same mock provider.
-#          issuer-uri: http://localhost:9000
-#          # jwk-set-uri: http://localhost:9000/jwks
+#          issuer-uri: http://localhost:9000/default
+#          # jwk-set-uri: http://localhost:9000/default/jwks
 
 server:
   port: 8080
