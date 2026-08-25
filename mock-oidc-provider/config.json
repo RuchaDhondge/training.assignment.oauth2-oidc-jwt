@@ -8,14 +8,32 @@
       "requestMappings": [
         {
           "requestParam": "scope",
+          "match": "profile:read",
+          "claims": {
+            "sub": "peter-parker-123",
+            "name": "Peter Parker",
+            "email": "peter.parker@dailybugle.com",
+            "scope": "profile:read"
+          }
+        },
+        {
+          "requestParam": "scope",
+          "match": "profile:write",
+          "claims": {
+            "sub": "peter-parker-123",
+            "name": "Peter Parker",
+            "email": "peter.parker@dailybugle.com",
+            "scope": "profile:write"
+          }
+        },
+        {
+          "requestParam": "scope",
           "match": "*",
           "claims": {
             "sub": "peter-parker-123",
             "name": "Peter Parker",
             "email": "peter.parker@dailybugle.com",
-            "roles": [
-              "USER"
-            ]
+            "scope": "openid profile email"
           }
         }
       ]

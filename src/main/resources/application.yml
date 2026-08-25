@@ -5,18 +5,18 @@ spring:
 # ---------------------------------------------------------------------------
 # OAuth 2.0 / OIDC configuration
 #
-# Everything below is intentionally commented out: the application starts without
-# an identity provider. Uncomment and fill in the values once the mock OIDC
-# provider (see ./mock-oidc-provider/README.md) is running on http://localhost:9000.
+# Everything below is intentionally commented out so the starter can boot
+# without a provider. Uncomment and complete it while implementing the
+# assignment with the mock OIDC provider on http://localhost:9000 (issuer: /default).
 # ---------------------------------------------------------------------------
 #  security:
 #    oauth2:
-#      # --- OIDC login (Authorization Code flow, used by browsers) --------------
+#      # --- OIDC login (browser session, identity for /api/me) --------------
 #      client:
 #        provider:
 #          mock-oidc:
 #            # Discovery document: <issuer-uri>/.well-known/openid-configuration
-#            issuer-uri: http://localhost:9000
+#            issuer-uri: http://localhost:9000/default
 #        registration:
 #          mock-oidc:
 #            provider: mock-oidc
@@ -28,14 +28,14 @@ spring:
 #              - openid
 #              - profile
 #              - email
-#              - profile:read
 #
-#      # --- Resource server (JWT bearer tokens, used by API clients) -----------
+#      # --- Resource server (JWT bearer tokens for /api/profile) ------------
 #      resourceserver:
 #        jwt:
-#          issuer-uri: http://localhost:9000
-#          # Alternatively point directly at the key set:
-#          # jwk-set-uri: http://localhost:9000/jwks
+#          # TODO: Candidate to implement... configure token validation using
+#          # issuer discovery and/or JWKS from the same mock provider.
+#          issuer-uri: http://localhost:9000/default
+#          # jwk-set-uri: http://localhost:9000/default/jwks
 
 server:
   port: 8080

@@ -11,41 +11,40 @@ import org.springframework.web.bind.annotation.RestController;
  * Skeletal REST API used for the assessment.
  *
  * <p>Both endpoints currently return placeholder data. Candidates are expected to replace the
- * placeholders with information extracted from the authenticated principal.
+ * placeholders with information from the authenticated principal.
  */
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 
     /**
-     * Returns information about the currently authenticated user.
+     * Returns OIDC identity details for the currently authenticated user.
      *
-     * <p>Expected final behaviour: echo the {@code sub}, {@code email}, and {@code name} claims
-     * of the caller (for example {@code sub: "peter-parker-123"},
-     * {@code email: "peter.parker@dailybugle.com"}, {@code name: "Peter Parker"}), regardless of
-     * whether the caller authenticated through an OIDC login session or presented a JWT bearer
-     * token.
+     * <p>Expected final behaviour: return {@code sub}, {@code email}, and {@code name} from the
+     * authenticated user (for example: peter-parker-123, peter.parker@dailybugle.com, Peter
+     * Parker).
+     *
+     * <p>Model reminder: OIDC Login -> OidcUser -> /api/me.
      */
     @GetMapping("/me")
     public ResponseEntity<Map<String, Object>> me() {
-        // TODO: Candidate to implement... inject the authenticated principal (for example with
-        //  @AuthenticationPrincipal OidcUser / @AuthenticationPrincipal Jwt, or by reading the
-        //  Authentication from the SecurityContext) and return its identity claims.
+        // TODO: Candidate to implement... inject OIDC principal support (for example
+        //  @AuthenticationPrincipal OidcUser) and return sub/email/name for the logged-in user.
         return ResponseEntity.ok(Map.of("message", "TODO: return the authenticated user's claims"));
     }
 
     /**
-     * Returns the profile of the currently authenticated user.
+     * Returns authenticated profile information from a JWT bearer-token call.
      *
-     * <p>Expected final behaviour: only callers holding the required role/scope (see
-     * {@code SecurityConfig}) may access this endpoint; everybody else receives 403.
+     * <p>Expected final behaviour: return profile claims and enforce access only when the caller
+     * has scope {@code profile:read} (authority {@code SCOPE_profile:read}).
+     *
+     * <p>Model reminder: JWT Resource Server -> Jwt -> /api/profile.
      */
     @GetMapping("/profile")
     public ResponseEntity<Map<String, Object>> profile() {
-        // TODO: Candidate to implement... return the profile claims (name, email, preferred
-        //  username, ...) of the authenticated user and restrict access to an authority such as
-        //  SCOPE_profile:read using method security
-        //  (@PreAuthorize("hasAuthority('SCOPE_profile:read')")) or SecurityConfig.
+        // TODO: Candidate to implement... return authenticated profile claims and protect this
+        //  endpoint via SecurityConfig and/or method security based on SCOPE_profile:read.
         return ResponseEntity.ok(Map.of("message", "TODO: return the authenticated user's profile"));
     }
 }

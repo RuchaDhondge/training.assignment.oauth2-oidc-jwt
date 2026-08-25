@@ -3,9 +3,9 @@
 # Starts a mock OpenID Connect provider on http://localhost:9000.
 #
 # The provider is a placeholder: it only needs to expose a discovery document
-# (/.well-known/openid-configuration), an authorization endpoint, a token endpoint
-# and a JWKS endpoint so that the Spring Boot application can complete the OIDC
-# login flow and validate JWTs.
+# (/default/.well-known/openid-configuration), an authorization endpoint, a token
+# endpoint and a JWKS endpoint so that the Spring Boot application can complete
+# the OIDC login flow and validate JWTs.
 #
 # Usage:
 #   ./mock-oidc-provider/start.sh
