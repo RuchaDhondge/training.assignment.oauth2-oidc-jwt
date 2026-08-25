@@ -28,29 +28,25 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                // TODO: Candidate to implement... permit public endpoints (e.g. "/", "/error",
-                //  actuator health) and require authentication for everything under "/api/**".
+                // TODO: Candidate to implement... allow expected public endpoints (for example
+                //  "/", "/error") and secure the API. Keep `/api/profile` restricted to callers
+                //  with authority "SCOPE_profile:read".
                 .anyRequest().authenticated()
             );
 
-        // TODO: Candidate to implement... enable the OIDC login flow (Authorization Code + PKCE)
-        //  by configuring `http.oauth2Login(...)` against the mock OIDC provider. The client
-        //  registration lives in `application.yml` under `spring.security.oauth2.client`.
+        // TODO: Candidate to implement... enable browser-based OIDC login using
+        //  `http.oauth2Login(...)` and the client registration in application.yml.
 
-        // TODO: Candidate to implement... enable JWT bearer token validation by configuring
-        //  `http.oauth2ResourceServer(oauth2 -> oauth2.jwt(...))`. The issuer / JWK set URI
-        //  lives in `application.yml` under `spring.security.oauth2.resourceserver.jwt`.
+        // TODO: Candidate to implement... enable JWT bearer-token support with
+        //  `http.oauth2ResourceServer(oauth2 -> oauth2.jwt(...))` using issuer/JWKS config from
+        //  application.yml.
 
-        // TODO: Candidate to implement... map JWT/OIDC claims to Spring Security authorities.
-        //  By default, Spring Security's JWT resource server converts a space-delimited
-        //  "scope" claim directly into "SCOPE_<scopename>" granted authorities (e.g. a token
-        //  with scope "profile:read" yields the authority "SCOPE_profile:read"). Use this to
-        //  secure `/api/profile` with `.requestMatchers("/api/profile").hasAuthority("SCOPE_profile:read")`,
-        //  or supply a custom JwtAuthenticationConverter / GrantedAuthoritiesMapper if a
-        //  different claim (e.g. "roles") should also be mapped to authorities.
+        // TODO: Candidate to implement... use standard scope mapping for JWT authorities.
+        //  Spring Security maps scope `profile:read` to authority `SCOPE_profile:read`.
+        //  Use `hasAuthority("SCOPE_profile:read")` for `/api/profile`.
 
-        // TODO: Candidate to implement... decide on the CSRF and session strategy. Stateless
-        //  bearer-token APIs usually disable CSRF, while browser based OIDC login does not.
+        // TODO: Candidate to implement... keep the two authentication models clear:
+        //  OIDC login uses a browser session, while bearer-token API calls are stateless.
 
         return http.build();
     }

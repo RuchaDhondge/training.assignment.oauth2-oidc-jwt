@@ -1,74 +1,72 @@
-# OAuth 2.0 / OIDC / JWT Assessment Starter
+# OAuth 2.0 / OIDC / JWT Assignment Starter
 
-Starter repository for the OAuth 2.0, OpenID Connect and JWT assessment. The project boots as-is,
-so you can focus on the security implementation instead of on project setup.
+## Objective
+
+Build a small Spring Boot API that demonstrates two ways of securing endpoints: OIDC Login for browser-based user authentication and JWT bearer-token authentication for API access. Protect the API using an OAuth 2.0 scope and verify authentication and authorization behavior.
+
+This starter is intentionally small and suitable for roughly **2–3 hours**:
+**Understand → Configure → Implement → Test → Verify → Explain**.
 
 ## Prerequisites
 
-- Java 17 (JDK)
-- Docker (only needed for the mock OIDC provider)
-- No local Maven install required — the Maven Wrapper (`./mvnw`) is included
+- Java 17+
+- Docker
+- Git
 
-## Project layout
-
-```
-.
-├── mvnw / mvnw.cmd / .mvn/          # Maven Wrapper
-├── pom.xml                          # Spring Boot 3.2.x, Java 17
-├── mock-oidc-provider/              # Throwaway OIDC provider (see its README.md)
-│   ├── README.md
-│   ├── config.json
-│   └── start.sh
-└── src/main
-    ├── java/com/example/demo
-    │   ├── DemoApplication.java     # Spring Boot entry point
-    │   ├── config/SecurityConfig.java   # TODO: candidate implements the security rules
-    │   └── controller/ApiController.java # TODO: candidate implements /api/me and /api/profile
-    └── resources/application.yml    # Commented-out OIDC configuration
-```
-
-## Run the application
+## Setup
 
 ```bash
+git clone https://github.com/RuchaDhondge/training.assignment.oauth2-oidc-jwt.git
+cd training.assignment.oauth2-oidc-jwt
+./mock-oidc-provider/start.sh
 ./mvnw spring-boot:run
 ```
 
-On Windows use `mvnw.cmd spring-boot:run`.
+- App: `http://localhost:8080`
+- Mock issuer: `http://localhost:9000`
+- Mock provider details and token steps: [`mock-oidc-provider/README.md`](mock-oidc-provider/README.md)
 
-The app listens on <http://localhost:8080>. Out of the box every request requires authentication,
-so `/api/me` and `/api/profile` are rejected until you wire up the OIDC login and/or the JWT
-resource server.
+## What you need to implement
 
-Other useful commands:
+Keep changes focused to these files:
+- `src/main/resources/application.yml`
+- `src/main/java/com/example/demo/config/SecurityConfig.java`
+- `src/main/java/com/example/demo/controller/ApiController.java`
+- `src/test/java/com/example/demo/DemoApplicationTests.java`
+
+Tasks:
+1. Configure OIDC login client settings.
+2. Implement `/api/me` for authenticated OIDC user identity (`sub`, `email`, `name`).
+3. Configure JWT resource server validation using issuer/JWKS from the mock provider.
+4. Implement `/api/profile` for JWT-based API access.
+5. Protect `/api/profile` with `profile:read` (`SCOPE_profile:read`).
+6. Add/complete MockMvc security tests.
+
+PKCE note: treat PKCE as part of Authorization Code security handled by framework/provider (not a manual implementation task in this assignment).
+
+## Testing expectations
+
+### A) MockMvc tests (fast, in-process)
+Use Spring Security test support (`oidcLogin()` and `jwt()`) to validate your configuration quickly.
+
+### B) Runtime verification with curl (real running app)
+After starting provider + app, verify these runtime scenarios:
+
+1. No `Authorization` header → **401**
+2. Invalid JWT → **401**
+3. Valid JWT with `profile:write` (or no `profile:read`) → **403**
+4. Valid JWT with `profile:read` → **200**
+
+## Conceptual questions (answer in your submission)
+
+1. OAuth 2.0 vs OIDC: what is the difference, and why is OIDC used for `/api/me`?
+2. ID token vs access token: what is each token for, and which one is used for API authorization?
+3. Why do missing/invalid credentials return 401, while insufficient scope returns 403?
+4. How does `profile:read` map to Spring Security authority, and what is JWKS used for?
+
+## Helpful commands
 
 ```bash
-./mvnw test        # run the tests
-./mvnw verify      # full build
+./mvnw test
+./mvnw verify
 ```
-
-## Run the mock OIDC provider
-
-In a second terminal:
-
-```bash
-./mock-oidc-provider/start.sh
-```
-
-It publishes an OIDC provider on <http://localhost:9000> with the issuer
-`http://localhost:9000`. See [`mock-oidc-provider/README.md`](mock-oidc-provider/README.md)
-for endpoints, credentials and how to mint tokens.
-
-## Your tasks
-
-1. Uncomment and complete the `spring.security.oauth2.client` and
-   `spring.security.oauth2.resourceserver` sections in `src/main/resources/application.yml`.
-2. Complete `SecurityConfig` so that the app supports both browser based OIDC login and JWT
-   bearer token access, and maps token claims to Spring Security authorities.
-3. Complete `ApiController`:
-   - `GET /api/me` — returns the authenticated user's identity claims.
-   - `GET /api/profile` — returns profile claims and is restricted to an authority/scope.
-4. Add tests using `spring-boot-starter-test` and `spring-security-test`
-   (e.g. `SecurityMockMvcRequestPostProcessors.jwt()` / `oidcLogin()`).
-
-Every place that needs your attention is marked with a `// TODO: Candidate to implement...`
-comment.

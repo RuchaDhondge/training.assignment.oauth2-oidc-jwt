@@ -1,49 +1,61 @@
 # Mock OIDC Provider
 
-A throwaway OpenID Connect provider used for local development and for the assessment.
-It lets you complete an OIDC login flow and mint JWT access tokens without depending on a
-real identity provider.
+This folder contains a local, throwaway OpenID Connect (OIDC) provider used by this assignment.
+Use it to:
+- perform browser login for `/api/me`
+- generate JWT access tokens for `/api/profile`
 
-## Start
+You do **not** need to build or sign JWTs manually.
+
+## Start the provider
 
 ```bash
 ./mock-oidc-provider/start.sh
 ```
 
-The script runs [`mock-oauth2-server`](https://github.com/navikt/mock-oauth2-server) in Docker
-and publishes it on <http://localhost:9000>. Stop it with `Ctrl+C`.
+The script runs `mock-oauth2-server` in Docker on `http://localhost:9000`.
+Stop it with `Ctrl+C` in that terminal.
 
-Environment variables you can override:
+## Important endpoints
 
-| Variable             | Default                                   | Description                     |
-|----------------------|-------------------------------------------|---------------------------------|
-| `MOCK_OIDC_IMAGE`    | `ghcr.io/navikt/mock-oauth2-server:2.1.2` | Container image to run          |
-| `MOCK_OIDC_PORT`     | `9000`                                    | Host port to publish            |
-| `MOCK_OIDC_CONTAINER`| `mock-oidc-provider`                      | Container name                  |
+- Issuer: `http://localhost:9000`
+- Discovery: `http://localhost:9000/.well-known/openid-configuration`
+- JWKS: `http://localhost:9000/jwks`
+- Debugger / token UI: `http://localhost:9000/debugger`
 
-## Endpoints
+## Client credentials for this assignment
 
-The provider hosts one issuer named `default`:
+Use the same values as `application.yml`:
+- client-id: `user-api`
+- client-secret: `user-api-secret`
 
-- Issuer URI: <http://localhost:9000>
-- Discovery: <http://localhost:9000/.well-known/openid-configuration>
-- JWKS: <http://localhost:9000/jwks>
-- Debugger / token minting UI: <http://localhost:9000/debugger>
+(For this mock server, any pair is accepted. Use these fixed values for consistency.)
 
-Any `client-id` / `client-secret` pair is accepted; the starter uses `demo-client` /
-`demo-secret`. These are throwaway local development values only — never reuse them anywhere else.
+## Identity claims in tokens
 
-## Claims
+The provider always includes:
+- `sub = peter-parker-123`
+- `email = peter.parker@dailybugle.com`
+- `name = Peter Parker`
 
-`config.json` makes every issued token carry the following claims, which is enough to implement
-`/api/me` and `/api/profile`:
+## Generate the 3 required token variants
 
-```json
-{ "sub": "peter-parker-123", "name": "Peter Parker", "email": "peter.parker@dailybugle.com", "roles": ["USER"] }
-```
+1. Open `http://localhost:9000/debugger`
+2. Select issuer `default`
+3. Use client-id `user-api` and client-secret `user-api-secret`
+4. Set `scope` exactly as shown below
+5. Mint token and copy the `access_token`
 
-## Using another provider
+### Token A (read scope)
+- Scope: `profile:read`
+- Expected `/api/profile` result: **200**
 
-The application only needs a spec-compliant OIDC provider. Feel free to replace this script with
-Keycloak, Spring Authorization Server, Auth0, … as long as it listens on the issuer URI configured
-in `src/main/resources/application.yml`.
+### Token B (write-only scope)
+- Scope: `profile:write`
+- Expected `/api/profile` result: **403**
+
+### Token C (no relevant profile scope)
+- Scope: for example `openid profile email` (anything without `profile:read`)
+- Expected `/api/profile` result: **403**
+
+If no bearer token is sent, or the token is invalid, `/api/profile` should return **401**.
