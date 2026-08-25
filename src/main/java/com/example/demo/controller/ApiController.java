@@ -23,11 +23,13 @@ public class ApiController {
      * <p>Expected final behaviour: return {@code sub}, {@code email}, and {@code name} from the
      * authenticated user (for example: peter-parker-123, peter.parker@dailybugle.com, Peter
      * Parker).
+     *
+     * <p>Model reminder: OIDC Login -> OidcUser -> /api/me.
      */
     @GetMapping("/me")
     public ResponseEntity<Map<String, Object>> me() {
-        // TODO: Candidate to implement... use Spring Security principal support (for example
-        //  @AuthenticationPrincipal OidcUser) to return sub/email/name for the logged-in user.
+        // TODO: Candidate to implement... inject OIDC principal support (for example
+        //  @AuthenticationPrincipal OidcUser) and return sub/email/name for the logged-in user.
         return ResponseEntity.ok(Map.of("message", "TODO: return the authenticated user's claims"));
     }
 
@@ -36,6 +38,8 @@ public class ApiController {
      *
      * <p>Expected final behaviour: return profile claims and enforce access only when the caller
      * has scope {@code profile:read} (authority {@code SCOPE_profile:read}).
+     *
+     * <p>Model reminder: JWT Resource Server -> Jwt -> /api/profile.
      */
     @GetMapping("/profile")
     public ResponseEntity<Map<String, Object>> profile() {

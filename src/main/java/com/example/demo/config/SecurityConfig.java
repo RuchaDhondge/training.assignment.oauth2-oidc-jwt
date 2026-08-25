@@ -45,8 +45,12 @@ public class SecurityConfig {
         //  Spring Security maps scope `profile:read` to authority `SCOPE_profile:read`.
         //  Use `hasAuthority("SCOPE_profile:read")` for `/api/profile`.
 
-        // TODO: Candidate to implement... keep the two authentication models clear:
-        //  OIDC login uses a browser session, while bearer-token API calls are stateless.
+        // TODO: Candidate to implement...
+        // Keep the authentication models clear:
+        // - OIDC login uses a browser session.
+        // - JWT bearer authentication is used for API requests.
+        // Use Spring Security's standard mechanisms; do not implement
+        // custom session or token handling.
 
         return http.build();
     }

@@ -56,8 +56,8 @@ The provider always includes:
 - Scope: `profile:write`
 - Expected `/api/profile` result: **403**
 
-### Token C (no relevant profile scope)
-- Scope: for example `openid profile email` (anything without `profile:read`)
+### Token C (no profile read scope)
+- Scope: `openid profile email`
 - Expected `/api/profile` result: **403**
 
 If no bearer token is sent, or the token is invalid, `/api/profile` should return **401**.

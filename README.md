@@ -44,20 +44,25 @@ Tasks:
 
 PKCE note: treat PKCE as part of Authorization Code security handled by framework/provider (not a manual implementation task in this assignment).
 
-## Testing expectations
+## Testing
 
-### A) MockMvc tests (fast, in-process)
+### MockMvc tests
 Use Spring Security test support (`oidcLogin()` and `jwt()`) to validate your configuration quickly.
 
-### B) Runtime verification with curl (real running app)
+### Runtime curl verification
 After starting provider + app, verify these runtime scenarios:
 
 1. No `Authorization` header → **401**
 2. Invalid JWT → **401**
-3. Valid JWT with `profile:write` (or no `profile:read`) → **403**
-4. Valid JWT with `profile:read` → **200**
+3. JWT with `profile:write` → **403**
+4. JWT with `profile:read` → **200**
 
-## Conceptual questions (answer in your submission)
+Use the mock provider token variants from `mock-oidc-provider/README.md`:
+- `scope=profile:read`
+- `scope=profile:write`
+- `scope=openid profile email`
+
+## Conceptual questions
 
 1. OAuth 2.0 vs OIDC: what is the difference, and why is OIDC used for `/api/me`?
 2. ID token vs access token: what is each token for, and which one is used for API authorization?
