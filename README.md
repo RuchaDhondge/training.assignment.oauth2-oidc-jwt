@@ -58,9 +58,7 @@ After starting provider + app, verify these runtime scenarios:
 4. JWT with `profile:read` → **200**
 
 Use the mock provider token variants from `mock-oidc-provider/README.md`:
-- `scope=profile:read`
-- `scope=profile:write`
-- `scope=openid profile email`
+`scope=profile:read`, `scope=profile:write`, and `scope=openid profile email`.
 
 ## Conceptual questions
 
