@@ -31,6 +31,8 @@ Use the same values as `application.yml`:
 
 (For this mock server, any pair is accepted. Use these fixed values for consistency.)
 
+These are local development-only values for this assignment. Do not reuse them in real systems.
+
 ## Identity claims in tokens
 
 The provider always includes:
